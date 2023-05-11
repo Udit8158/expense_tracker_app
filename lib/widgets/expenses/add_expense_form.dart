@@ -97,10 +97,6 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
 
   @override
   Widget build(BuildContext context) {
-    // print(Category.values.map((e) => e.name).toList());
-    double keyboadSpace = MediaQuery.of(context)
-        .viewInsets
-        .bottom; // calculate the how much space keyboad take
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(

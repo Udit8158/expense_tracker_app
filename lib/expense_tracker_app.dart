@@ -28,6 +28,7 @@ class ExpenseTrackerApp extends StatefulWidget {
 }
 
 class _ExpenseTrackerAppState extends State<ExpenseTrackerApp> {
+  // modal open
   void _openModal() {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -50,27 +51,33 @@ class _ExpenseTrackerAppState extends State<ExpenseTrackerApp> {
 
   // delete expense
   void removeExpense(Expense expense) {
+    // delting the expense from data
     int expenseIndex = expensesData.indexOf(expense);
-    setState(() {
-      expensesData.remove(expense);
-    });
+    setState(
+      () {
+        expensesData.remove(expense);
+      },
+    );
 
     // clear any existing snackbar before showing the new one
     ScaffoldMessenger.of(context).clearSnackBars();
 
+    // show the new snackbar msg
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text(
           'Successfully deleted the expense',
         ),
         duration: const Duration(seconds: 3),
-        action: SnackBarAction(
-            label: 'undo',
-            onPressed: () {
-              setState(() {
-                expensesData.insert(expenseIndex, expense);
-              });
-            }),
+        action:
+            // undo the deletion
+            SnackBarAction(
+                label: 'undo',
+                onPressed: () {
+                  setState(() {
+                    expensesData.insert(expenseIndex, expense);
+                  });
+                }),
       ),
     );
   }
@@ -93,7 +100,6 @@ class _ExpenseTrackerAppState extends State<ExpenseTrackerApp> {
 
     return Scaffold(
       appBar: AppBar(
-        centerTitle: false,
         title: const Text('ExpenseTracker'),
         actions: [
           IconButton(
@@ -105,6 +111,7 @@ class _ExpenseTrackerAppState extends State<ExpenseTrackerApp> {
       ),
       body: Column(
         // crossAxisAlignment: CrossAxisAlignment.start,
+
         mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(height: 20),

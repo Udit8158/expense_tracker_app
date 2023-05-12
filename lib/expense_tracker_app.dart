@@ -5,21 +5,6 @@ import 'package:expense_tracker_app/models/Expense.dart';
 import 'package:expense_tracker_app/widgets/expenses/expenses_list.dart';
 import 'package:flutter/material.dart';
 
-// List<Expense> expenses = [
-//   Expense(
-//     title: 'Travel in Goa',
-//     price: 3400,
-//     date: DateTime(2023, 01, 23),
-//     category: Category.travel,
-//   ),
-//   Expense(
-//     title: 'Buy Macbook',
-//     price: 1500,
-//     date: DateTime(2023, 03, 19),
-//     category: Category.work,
-//   ),
-// ];
-
 class ExpenseTrackerApp extends StatefulWidget {
   const ExpenseTrackerApp({Key? key}) : super(key: key);
 
@@ -29,7 +14,13 @@ class ExpenseTrackerApp extends StatefulWidget {
 
 class _ExpenseTrackerAppState extends State<ExpenseTrackerApp> {
   // modal open
-  void _openModal() {
+  void _openModal({
+    required String title,
+    required Category category,
+    required String amount,
+    required DateTime? date,
+    required String? expenseId,
+  }) {
     showModalBottomSheet(
       isScrollControlled: true,
       useSafeArea: true,
@@ -37,6 +28,18 @@ class _ExpenseTrackerAppState extends State<ExpenseTrackerApp> {
       context: context,
       builder: (ctx) => AddExpenseForm(
         onAddExpense: addNewExpense,
+        expenseTitle: title,
+        expenseAmount: amount,
+        expenseCategory: category,
+        expenseDate: date,
+        expenseId: expenseId,
+        isEditing: false,
+        onEditExpense: ({
+          required String title,
+          required double amount,
+          required Category category,
+          required DateTime? date,
+        }) {},
       ),
     );
   }
@@ -82,6 +85,35 @@ class _ExpenseTrackerAppState extends State<ExpenseTrackerApp> {
     );
   }
 
+  // edit the expense
+  void editExpense({
+    required String title,
+    required double amount,
+    required Category category,
+    required DateTime date,
+    required String expenseId,
+  }) {
+    Expense exp = expensesData.firstWhere((element) => element.id == expenseId);
+    int expIndex = expensesData.indexOf(exp);
+
+    Expense newExpense = Expense(
+      title: title,
+      price: amount,
+      category: category,
+      date: date,
+    );
+
+    // print(newExpense.title);
+
+    setState(() {
+      expensesData[expIndex] = newExpense;
+    });
+
+    // expensesData[expIndex].title = title;
+    // print('Editing expense');
+    // print(expIndex);
+  }
+
   // calculate total expenses
   double get totalExpensesAmount {
     double sum = 0;
@@ -104,7 +136,15 @@ class _ExpenseTrackerAppState extends State<ExpenseTrackerApp> {
         actions: [
           IconButton(
             iconSize: 40,
-            onPressed: _openModal,
+            onPressed: () {
+              _openModal(
+                title: '',
+                amount: '',
+                category: Category.food,
+                date: null,
+                expenseId: null,
+              );
+            },
             icon: const Icon(Icons.add),
           ),
         ],
@@ -144,6 +184,7 @@ class _ExpenseTrackerAppState extends State<ExpenseTrackerApp> {
                         child: ExpensesList(
                           expenses: expensesData,
                           onRemoveExpense: removeExpense,
+                          onEditExpense: editExpense,
                         ),
                       ),
                     ],
@@ -159,6 +200,7 @@ class _ExpenseTrackerAppState extends State<ExpenseTrackerApp> {
                         child: ExpensesList(
                           expenses: expensesData,
                           onRemoveExpense: removeExpense,
+                          onEditExpense: editExpense,
                         ),
                       ),
                     ],

@@ -30,11 +30,11 @@ class Expense {
     required this.category,
   }) : id = uuid.v4();
 
-  final String title;
-  final double price;
-  final DateTime date;
+  String title;
+  double price;
+  DateTime date;
   final String id;
-  final Category category;
+  Category category;
 
   // getter method
   String get formattedDate {

@@ -2,19 +2,15 @@ import 'package:expense_tracker_app/models/Expense.dart';
 
 List<Expense> expensesData = [
   Expense(
-      title: 'lsdjf', price: 45, date: DateTime.now(), category: Category.food),
+    title: 'Flutter Course',
+    price: 12.49,
+    date: DateTime.now(),
+    category: Category.work,
+  ),
   Expense(
-      title: 'lsdjf', price: 45, date: DateTime.now(), category: Category.food),
-  Expense(
-      title: 'lsdjf', price: 45, date: DateTime.now(), category: Category.food),
-  Expense(
-      title: 'lsdjf', price: 45, date: DateTime.now(), category: Category.food),
-  Expense(
-      title: 'lsdjf', price: 45, date: DateTime.now(), category: Category.food),
-  Expense(
-      title: 'lsdjf', price: 45, date: DateTime.now(), category: Category.food),
-  Expense(
-      title: 'lsdjf', price: 45, date: DateTime.now(), category: Category.food),
-  Expense(
-      title: 'lsdjf', price: 45, date: DateTime.now(), category: Category.food),
+    title: 'Watching Pathan Movie',
+    price: 22.99,
+    date: DateTime(2023, 01, 27),
+    category: Category.leisure,
+  ),
 ];

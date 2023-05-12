@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:expense_tracker_app/models/Expense.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +7,32 @@ import 'package:intl/intl.dart';
 var dateFormatter = DateFormat('dd-MM-yy');
 
 class AddExpenseForm extends StatefulWidget {
-  const AddExpenseForm({super.key, required this.onAddExpense});
+  const AddExpenseForm({
+    super.key,
+    required this.onAddExpense,
+    required this.onEditExpense,
+    required this.expenseTitle,
+    required this.expenseAmount,
+    required this.expenseCategory,
+    required this.expenseDate,
+    required this.expenseId,
+    required this.isEditing,
+  });
 
   final void Function(Expense expense) onAddExpense;
+  final void Function({
+    required String title,
+    required double amount,
+    required Category category,
+    required DateTime date,
+  }) onEditExpense;
+  final String expenseTitle;
+  final String expenseAmount;
+  final Category expenseCategory;
+  final DateTime? expenseDate;
+
+  final String? expenseId;
+  final bool isEditing;
 
   @override
   State<AddExpenseForm> createState() => _AddExpenseFormState();
@@ -24,8 +46,18 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   DateTime? _selectedDate;
   Category _selectedCategory = Category.leisure;
 
-  // error message
-  // bool _showErrorMessage = false;
+  late bool _isEditing;
+
+  // intialize the state
+  @override
+  void initState() {
+    super.initState();
+    _titleEditingController.text = widget.expenseTitle;
+    _amountEditingController.text = widget.expenseAmount;
+    _selectedCategory = widget.expenseCategory;
+    _selectedDate = widget.expenseDate;
+    _isEditing = widget.isEditing;
+  }
 
   // open date picker and pick date
   Future<void> _openDatePicker() async {
@@ -108,6 +140,16 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
       _showAlertDialog(context);
     } else {
       // print('Submit new expense');
+      if (_isEditing) {
+        widget.onEditExpense(
+            title: _titleEditingController.text,
+            amount: double.parse(_amountEditingController.text),
+            date: _selectedDate!,
+            category: _selectedCategory);
+
+        Navigator.pop(context);
+        return;
+      }
       Expense newExpense = Expense(
         title: _titleEditingController.text,
         price: enteredAmount,
@@ -128,6 +170,13 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
 
   @override
   Widget build(BuildContext context) {
+    // For debugging
+
+    // print(widget.expenseTitle);
+    // print(widget.expenseAmount);
+    // print(widget.expenseDate);
+    // print(widget.expenseCategory);
+
     return LayoutBuilder(
       builder: (ctx, constrains) {
         // getting the max width of the modal window
@@ -226,7 +275,8 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                       ),
                       ElevatedButton(
                         onPressed: submitNewExpense,
-                        child: const Text("Add Expense"),
+                        child:
+                            Text(_isEditing ? 'Update Expense' : 'Add Expense'),
                       ),
                     ],
                   )

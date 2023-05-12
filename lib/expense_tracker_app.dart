@@ -13,6 +13,8 @@ class ExpenseTrackerApp extends StatefulWidget {
 }
 
 class _ExpenseTrackerAppState extends State<ExpenseTrackerApp> {
+  // Form here only setstate will be used as this the parrent stateful widget
+
   // modal open
   void _openModal({
     required String title,
@@ -154,6 +156,8 @@ class _ExpenseTrackerAppState extends State<ExpenseTrackerApp> {
 
         mainAxisSize: MainAxisSize.min,
         children: [
+          // ----------------Expense total amount------------------------
+
           const SizedBox(height: 20),
           expensesData.isNotEmpty
               ? Padding(
@@ -161,7 +165,7 @@ class _ExpenseTrackerAppState extends State<ExpenseTrackerApp> {
                   child: Opacity(
                     opacity: 0.8,
                     child: Text(
-                      'Total Expense: \$$totalExpensesAmount',
+                      'Total Expense: \$${totalExpensesAmount.toStringAsFixed(2)}',
                       style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
@@ -172,7 +176,7 @@ class _ExpenseTrackerAppState extends State<ExpenseTrackerApp> {
               : const SizedBox(),
           const SizedBox(height: 10),
 
-          // conditionally responsive
+          // ------------------- conditionally responsive (Chart & Expenses List) ---------------------
           (width < 600)
               ? Expanded(
                   child: Column(

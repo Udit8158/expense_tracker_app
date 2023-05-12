@@ -34,8 +34,8 @@ class ExpenseItem extends StatelessWidget {
       context: context,
       builder: (ctx) => AddExpenseForm(
         onAddExpense: (Expense exp) {},
-        expenseTitle: title,
-        expenseAmount: amount,
+        expenseTitle: expense.title,
+        expenseAmount: expense.price.toString(),
         expenseCategory: category,
         expenseDate: date,
         expenseId: expenseId,

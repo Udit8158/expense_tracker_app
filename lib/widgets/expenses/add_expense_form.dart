@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:expense_tracker_app/data/expenses_data.dart';
 import 'package:expense_tracker_app/models/Expense.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +52,8 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   @override
   void initState() {
     super.initState();
+    _titleEditingController.text = widget.expenseTitle;
+    _amountEditingController.text = widget.expenseAmount;
     _selectedCategory = widget.expenseCategory;
     _selectedDate = widget.expenseDate;
     _isEditing = widget.isEditing;
@@ -170,6 +170,13 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
 
   @override
   Widget build(BuildContext context) {
+    // For debugging
+
+    // print(widget.expenseTitle);
+    // print(widget.expenseAmount);
+    // print(widget.expenseDate);
+    // print(widget.expenseCategory);
+
     return LayoutBuilder(
       builder: (ctx, constrains) {
         // getting the max width of the modal window
@@ -268,7 +275,8 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                       ),
                       ElevatedButton(
                         onPressed: submitNewExpense,
-                        child: const Text("Add Expense"),
+                        child:
+                            Text(_isEditing ? 'Update Expense' : 'Add Expense'),
                       ),
                     ],
                   )
